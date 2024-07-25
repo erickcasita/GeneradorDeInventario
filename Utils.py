@@ -1,6 +1,47 @@
-from openpyxl import Workbook
+from openpyxl import Workbook,load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, numbers
 import datetime,locale
+
+def title_category(file,row,categoryname):
+    wb = load_workbook(file)
+    ws = wb.active
+    ws.cell(row,1).value = "CLAVE INT"
+    ws.cell(row,1).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,1).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,2).value = "SKU"
+    ws.cell(row,2).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,2).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,3).value = categoryname
+    ws.cell(row,3).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,3).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,4).value = "Tarimas"
+    ws.cell(row,4).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,4).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,5).value = "Saldos"
+    ws.cell(row,5).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,5).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,6).value = "Unidades"
+    ws.cell(row,6).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,6).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,11).value = "Tarimas"
+    ws.cell(row,11).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,11).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,12).value = "Saldos"
+    ws.cell(row,12).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,12).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,13).value = "Unidades"
+    ws.cell(row,13).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,13).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,18).value = "Tarimas"
+    ws.cell(row,18).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,18).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,19).value = "Saldos"
+    ws.cell(row,19).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,19).alignment = Alignment(horizontal='center',vertical="center")
+    ws.cell(row,20).value = "Unidades"
+    ws.cell(row,20).font = Font(color="000000", size="12", name="Arial")
+    ws.cell(row,20).alignment = Alignment(horizontal='center',vertical="center")
+    wb.save("inventario.xlsx")
 def headers():
     wb = Workbook()
     ws = wb.active
@@ -24,7 +65,7 @@ def headers():
     ws['B3'].alignment = Alignment(horizontal='center',vertical="center")
     #ws['B3'].fill = PatternFill(bgColor="FFC7CE", fill_type = "solid")
     ws.row_dimensions[3].height = 47.40
-    ws.column_dimensions['B'].width = 53.67
+    ws.column_dimensions['C'].width = 53.67
     #Unions Cell for Headers "San Andres" and "Juan Diaz Covarrubias" and "Totales"
     ws.merge_cells('E3:G3')
     ws.merge_cells('K3:N3')
@@ -53,6 +94,20 @@ def headers():
     ws['Q3'].alignment = Alignment(wrap_text=True,horizontal='center',vertical="center")
     for i in  range(1, 21):
         ws.cell(3,i).fill = PatternFill(fgColor="222b35", fill_type = "solid")
-    
-    wb.save("test.xlsx")
-    
+        
+    #Rows and columns dimensions  all categories
+    ws.row_dimensions[4].height = 18
+    ws.column_dimensions['A'].width = 11.89
+    ws.column_dimensions['B'].width = 11.22
+    ws.column_dimensions['D'].width = 10.67
+    ws.column_dimensions['E'].width = 8.89
+    ws.column_dimensions['F'].width = 12.11
+    ws.column_dimensions['K'].width = 12.78
+    ws.column_dimensions['L'].width = 10.67
+    ws.column_dimensions['M'].width = 12.22
+    ws.column_dimensions['R'].width = 10.67
+    ws.column_dimensions['S'].width = 10.67
+    ws.column_dimensions['T'].width = 11.89
+    wb.save("inventario.xlsx")
+    #Insert title category "cerveza"
+    title_category("inventario.xlsx",4,"CERVEZA")
