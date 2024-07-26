@@ -1,6 +1,4 @@
 from Utils import headers
-from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Font
 while True:
     print("""
         ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
