@@ -1,7 +1,7 @@
 from Utils import headers,title_category,styles_conten_category,styles_totales
 from Connection import connection
 from openpyxl import load_workbook
-import time
+import time,datetime,locale
 from progress1bar import ProgressBar
 print("""
     ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
@@ -22,8 +22,16 @@ print("   |------------------ 3.-    SALIR          --------------------------|"
 print("   |-------------------------------------------------------------------|")
     
 while True:
-    option = int(input("\n Ingrese una opción: "))
+    option = input("\n Ingrese una opción: ")
+    try:
+        option = int(option)
+    except ValueError:
+       print ('\n Ingrese una opción válida, Por favor')
+       continue
     if(option == 1):
+        #date generation cierre almacén
+        locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
+        date = datetime.datetime.strftime(datetime.datetime.now(),'%Y-%m-%d')
         #diccionary category beer
         data = {
             1: "CERVEZA",
@@ -55,7 +63,7 @@ while True:
             sql = con.cursor()
             #Execute procedure
             command = "set nocount on; execute GeneradorDeInventarioXCategoriasV2 @clavecategoria=?, @fechacierre=?"
-            params = (key,'2024-07-26')
+            params = (key,str(date))
             sql.execute(command,params)
             rows = sql.fetchall()
             #Get total rows
