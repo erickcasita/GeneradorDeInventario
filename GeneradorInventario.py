@@ -1,4 +1,5 @@
 from Utils import headers
+from Connection import connection
 while True:
     print("""
         ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
@@ -21,6 +22,15 @@ while True:
     option = int(input("\n Ingrese una opción: "))
     if(option == 1):
         headers()
-        
+        #Conection Sql Server
+        con = connection()
+        sql = con.cursor()
+        #Execute procedure
+        command = "set nocount on; execute GeneradorDeInventarioXCategoriasV2 1,'2024-07-24' "
+        sql.execute(command)
+        rows = sql.fetchall()
+        for row in rows:
+            print(row)
+        sql.close()
     if(option == 3):
         break
