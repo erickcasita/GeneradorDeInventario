@@ -108,6 +108,10 @@ def headers():
     ws.column_dimensions['R'].width = 10.67
     ws.column_dimensions['S'].width = 10.67
     ws.column_dimensions['T'].width = 11.89
+    ws.column_dimensions['I'].width = 5.89
+    ws.column_dimensions['J'].width = 5.89
+    ws.column_dimensions['P'].width = 5.89
+    ws.column_dimensions['Q'].width = 5.89
     wb.save("inventario.xlsx")
     #Insert title category "cerveza"
     title_category("inventario.xlsx",4,"CERVEZA")
