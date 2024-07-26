@@ -1,7 +1,11 @@
 from openpyxl import Workbook,load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, numbers
 import datetime,locale
-
+excel = load_workbook("inventario.xlsx")
+def estilos(excel):
+    ws = excel.active
+    ws['C73'] = "ALMACEN"
+    excel.save("inventario.xlsx")
 def title_category(file,row,categoryname):
     wb = load_workbook(file)
     ws = wb.active
@@ -108,10 +112,13 @@ def headers():
     ws.column_dimensions['R'].width = 10.67
     ws.column_dimensions['S'].width = 10.67
     ws.column_dimensions['T'].width = 11.89
-    ws.column_dimensions['I'].width = 5.89
-    ws.column_dimensions['J'].width = 5.89
-    ws.column_dimensions['P'].width = 5.89
-    ws.column_dimensions['Q'].width = 5.89
+    ws.column_dimensions['I'].width = 7
+    ws.column_dimensions['J'].width = 7.10
+    ws.column_dimensions['P'].width = 7
+    ws.column_dimensions['Q'].width = 7.10
     wb.save("inventario.xlsx")
     #Insert title category "cerveza"
     title_category("inventario.xlsx",4,"CERVEZA")
+    
+    
+estilos(excel)
