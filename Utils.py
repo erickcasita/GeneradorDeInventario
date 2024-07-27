@@ -1,14 +1,14 @@
 from openpyxl import Workbook,load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, numbers
 import datetime,locale
-excel = load_workbook("inventario.xlsx")
+#excel = load_workbook("inventario.xlsx")
 def estilos(excel):
     ws = excel.active
     ws['C73'] = "ALMACEN"
-    excel.save("inventario.xlsx")
+    #excel.save("inventario.xlsx")
 def title_category(file,row,categoryname):
-    wb = load_workbook(file)
-    ws = wb.active
+    
+    ws = file.active
     ws.cell(row,1).value = "CLAVE INT"
     ws.cell(row,1).font = Font(color="000000", size="11", name="Arial", bold=True)
     ws.cell(row,1).alignment = Alignment(horizontal='center',vertical="center")
@@ -45,7 +45,6 @@ def title_category(file,row,categoryname):
     ws.cell(row,20).value = "Unidades"
     ws.cell(row,20).font = Font(color="000000", size="12", name="Arial")
     ws.cell(row,20).alignment = Alignment(horizontal='center',vertical="center")
-    wb.save("inventario.xlsx")
 def headers():
     wb = Workbook()
     ws = wb.active
@@ -116,9 +115,6 @@ def headers():
     ws.column_dimensions['J'].width = 7.10
     ws.column_dimensions['P'].width = 7
     ws.column_dimensions['Q'].width = 7.10
-    wb.save("inventario.xlsx")
     #Insert title category "cerveza"
-    title_category("inventario.xlsx",4,"CERVEZA")
-    
-    
-estilos(excel)
+    title_category(wb,4,"CERVEZA")
+    wb.save("inventario.xlsx")
