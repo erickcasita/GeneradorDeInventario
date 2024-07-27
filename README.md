@@ -4,7 +4,7 @@ Software to generate sat and jdc warehouse stocks
 Download the project from Github to a local folder
 
 `https://github.com/erickcasita/GeneradorDeInventario`
-
+git
 ### Create a virtual development environment
 
 `python -m venv *name* `
