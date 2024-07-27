@@ -35,15 +35,16 @@ while True:
             22: "COMESTIBLES"
             
         }
+        #array totals category
+        totals_category = []
         headers()
         
         #iteration dictorary category
         fila = 4  #row initial
-        
+        #Call file inventario.xlsx
+        wb = load_workbook("inventario.xlsx")
+        ws = wb.active
         for key in data:
-            #Call file inventario.xlsx
-            wb = load_workbook("inventario.xlsx")
-            ws = wb.active
             #Insert title category
             title_category(wb,fila,str(data[key]))
             fila=fila+1
@@ -73,6 +74,8 @@ while True:
                 ws.cell(fila,20).value = row[11]
            
                 fila = fila+1
+            #Add to array position total x category
+            totals_category.append(fila+1)
             #Add Total x category
             ws.cell(fila+1,3).value = "TOTALES"
             ws.cell(fila+1,6).value = "=SUM(F"+str(fila-totalprodcts)+":F"+str(fila-1)+")"
@@ -80,6 +83,11 @@ while True:
             ws.cell(fila+1,20).value = "=SUM(T"+str(fila-totalprodcts)+":T"+str(fila-1)+")"
             fila=fila+3
             sql.close()  
-            wb.save("inventario.xlsx")  
+            wb.save("inventario.xlsx") 
+        ws.cell(fila+1,3).value = "GRAN TOTAL"
+        ws.cell(fila+1,6).value = "=SUM(F"+str(totals_category[0])+", F"+str(totals_category[1])+",F"+str(totals_category[2])+",F"+str(totals_category[3])+",F"+str(totals_category[4])+",F"+str(totals_category[5])+",F"+str(totals_category[6])+",F"+str(totals_category[7])+",F"+str(totals_category[8])+")"
+        ws.cell(fila+1,13).value = "=SUM(M"+str(totals_category[0])+", M"+str(totals_category[1])+",M"+str(totals_category[2])+",M"+str(totals_category[3])+",M"+str(totals_category[4])+",M"+str(totals_category[5])+",M"+str(totals_category[6])+",M"+str(totals_category[7])+",M"+str(totals_category[8])+")"
+        ws.cell(fila+1,20).value = "=SUM(T"+str(totals_category[0])+", T"+str(totals_category[1])+",T"+str(totals_category[2])+",T"+str(totals_category[3])+",T"+str(totals_category[4])+",T"+str(totals_category[5])+",T"+str(totals_category[6])+",T"+str(totals_category[7])+",T"+str(totals_category[8])+")"
+        wb.save("inventario.xlsx")
     if(option == 3):
         break
