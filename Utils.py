@@ -1,14 +1,66 @@
 from openpyxl import Workbook,load_workbook
-from openpyxl.styles import Font, Alignment, PatternFill, numbers
+from openpyxl.styles import Font, Alignment, PatternFill, numbers,Border,Side
 import datetime,locale
-#excel = load_workbook("inventario.xlsx")
-def estilos(excel):
-    ws = excel.active
-    ws['C73'] = "ALMACEN"
-    #excel.save("inventario.xlsx")
-def title_category(file,row,categoryname):
+#Variable Border
+thin_border = Border(left=Side(style='thin'), 
+                     right=Side(style='thin'), 
+                     top=Side(style='thin'), 
+                     bottom=Side(style='thin'))
+def styles_totales(ws,row):
+     ws.cell(row,3).font = Font(color="000000", size="11", name="Arial", bold=True)
+     ws.cell(row,3).border = thin_border
+     ws.cell(row,3).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+     ws.cell(row,3).alignment = Alignment(horizontal='center',vertical="center")
+     ws.cell(row,6).font = Font(color="000000", size="11", name="Arial", bold=True)
+     ws.cell(row,6).border = thin_border
+     ws.cell(row,6).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+     ws.cell(row,13).font = Font(color="000000", size="11", name="Arial", bold=True)
+     ws.cell(row,13).border = thin_border
+     ws.cell(row,13).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+     ws.cell(row,20).font = Font(color="000000", size="11", name="Arial", bold=True)
+     ws.cell(row,20).border = thin_border
+     ws.cell(row,20).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+     
+def styles_conten_category(ws,row):
     
-    ws = file.active
+    ws.cell(row,1).font = Font(color="000000", size="11", name="Arial", bold=False)
+    ws.cell(row,2).font = Font(color="000000", size="11", name="Arial", bold=False)
+    ws.cell(row,3).font = Font(color="000000", size="11", name="Arial", bold=False)
+    ws.cell(row,4).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,5).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,6).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,11).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,12).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,13).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,18).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,19).font = Font(color="000000", size="11", name="Arial", bold=True)
+    ws.cell(row,20).font = Font(color="000000", size="11", name="Arial", bold=True)
+    #border
+    ws.cell(row,4).border = thin_border
+    ws.cell(row,5).border = thin_border
+    ws.cell(row,6).border = thin_border
+    ws.cell(row,11).border = thin_border
+    ws.cell(row,12).border = thin_border
+    ws.cell(row,13).border = thin_border
+    ws.cell(row,18).border = thin_border
+    ws.cell(row,19).border = thin_border
+    ws.cell(row,20).border = thin_border
+    #color
+    ws.cell(row,4).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,5).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,6).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,11).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,12).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,13).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,18).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,19).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    ws.cell(row,20).fill = PatternFill(fgColor="fdf7e9", fill_type = "solid")
+    
+    
+    #excel.save("inventario.xlsx")
+def title_category(wb,row,categoryname):
+    
+    ws = wb.active
     ws.cell(row,1).value = "CLAVE INT"
     ws.cell(row,1).font = Font(color="000000", size="11", name="Arial", bold=True)
     ws.cell(row,1).alignment = Alignment(horizontal='center',vertical="center")
