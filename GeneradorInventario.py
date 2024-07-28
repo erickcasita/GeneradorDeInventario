@@ -86,6 +86,9 @@ while True:
                     ws.cell(fila,20).value = row[11]
                     #Apply Styles conten category
                     styles_conten_category(ws,fila)
+                    #Oculting rows 
+                    if(row[11] == 0):
+                        ws.row_dimensions[fila].hidden = True
                     fila = fila+1
                     #ProgressBar
                     pb.alias = row[2]
