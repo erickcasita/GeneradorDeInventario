@@ -1,6 +1,8 @@
 from Utils import headers,title_category,styles_conten_category,styles_totales
 from Connection import connection
 from openpyxl import load_workbook
+import time
+from progress1bar import ProgressBar
 while True:
     print("""
         ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
@@ -58,23 +60,37 @@ while True:
             rows = sql.fetchall()
             #Get total rows
             totalprodcts = len(rows)
-            for row in rows:
+            #kwargs  config progressBar
+            kwargs = {
+                'total': totalprodcts,
+                'completed_message': 'Categoria ' +data[key]+" completa",
+                'clear_alias': True,
+                'show_fraction': False,
+                'show_prefix': False,
+                'show_duration': True
+                }
+            with ProgressBar(**kwargs) as pb:
+                for row in rows:
           
-                ws.cell(fila,1).value = row[0]
-                ws.cell(fila,2).value = int(row[1])
-                ws.cell(fila,3).value = row[2]
-                ws.cell(fila,4).value = row[3]
-                ws.cell(fila,5).value = row[4]
-                ws.cell(fila,6).value = row[5]
-                ws.cell(fila,11).value = row[6]
-                ws.cell(fila,12).value = row[7]
-                ws.cell(fila,13).value = row[8]
-                ws.cell(fila,18).value = row[9]
-                ws.cell(fila,19).value = row[10]
-                ws.cell(fila,20).value = row[11]
-                #Apply Styles conten category
-                styles_conten_category(ws,fila)
-                fila = fila+1
+                    ws.cell(fila,1).value = row[0]
+                    ws.cell(fila,2).value = int(row[1])
+                    ws.cell(fila,3).value = row[2]
+                    ws.cell(fila,4).value = row[3]
+                    ws.cell(fila,5).value = row[4]
+                    ws.cell(fila,6).value = row[5]
+                    ws.cell(fila,11).value = row[6]
+                    ws.cell(fila,12).value = row[7]
+                    ws.cell(fila,13).value = row[8]
+                    ws.cell(fila,18).value = row[9]
+                    ws.cell(fila,19).value = row[10]
+                    ws.cell(fila,20).value = row[11]
+                    #Apply Styles conten category
+                    styles_conten_category(ws,fila)
+                    fila = fila+1
+                    #ProgressBar
+                    pb.alias = row[2]
+                    time.sleep(.08)
+                    pb.count += 1
             #Add to array position total x category
             totals_category.append(fila+1)
             #Add Total x category
@@ -86,7 +102,7 @@ while True:
             styles_totales(ws,fila+1)
             fila=fila+3
             sql.close()  
-            wb.save("inventario.xlsx") 
+            #wb.save("inventario.xlsx") 
         ws.cell(fila+1,3).value = "GRAN TOTAL"
         ws.cell(fila+1,6).value = "=SUM(F"+str(totals_category[0])+", F"+str(totals_category[1])+",F"+str(totals_category[2])+",F"+str(totals_category[3])+",F"+str(totals_category[4])+",F"+str(totals_category[5])+",F"+str(totals_category[6])+",F"+str(totals_category[7])+",F"+str(totals_category[8])+")"
         ws.cell(fila+1,13).value = "=SUM(M"+str(totals_category[0])+", M"+str(totals_category[1])+",M"+str(totals_category[2])+",M"+str(totals_category[3])+",M"+str(totals_category[4])+",M"+str(totals_category[5])+",M"+str(totals_category[6])+",M"+str(totals_category[7])+",M"+str(totals_category[8])+")"
