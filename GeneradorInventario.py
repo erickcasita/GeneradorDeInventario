@@ -1,7 +1,7 @@
 from Utils import headers,title_category,styles_conten_category,styles_totales
 from Connection import connection
 from openpyxl import load_workbook
-import time,datetime,locale
+import time,datetime,os,shutil,locale
 from progress1bar import ProgressBar
 from helpers import validatedate
 print("""
@@ -30,9 +30,9 @@ while True:
        print ('\n Ingrese una opción válida, Por favor')
        continue
     if(option == 1):
-        date = input("\n Ingrese Fecha cierre de Almacén: ")
+        date = input("\n Ingrese Fecha cierre de Almacén YYY-mm-dd: ")
         if(validatedate(date)):
-            print("\n ........ Creando Inventario en excel ..... ")
+            print("\n ........ Creando Inventario en excel ..... \n")
             #diccionary category beer
             data = {
             1: "CERVEZA",
@@ -121,6 +121,13 @@ while True:
             #Styles Gran total
             styles_totales(ws,fila+1)
             wb.save("inventario.xlsx")
+            #Administrator file
+            locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
+            namefile = 'INVENTARIO DE ALMACENES AL DIA '+str(datetime.datetime.strftime(datetime.datetime.now(),'%d-%m-%Y %H-%M-%S %p'))+'.xlsx'
+            savepath = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Documents','ReporteadorInventario',namefile)
+            savepath = os.path.abspath(savepath) 
+            shutil.copy('inventario.xlsx', savepath)
+            os.remove('inventario.xlsx')
             print("\n ........Inventario en excel terminado ..... ")           
     if(option == 3):
         break
