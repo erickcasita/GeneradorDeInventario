@@ -6,3 +6,7 @@ def validatedate(date_text):
         except ValueError:
           print ("\n Formato de fecha incorrecto, Formato:  YYYY-MM-DD")
           
+def getMessageContent():
+  with open('mails/MailTemplate.html') as fichero:
+    
+    return fichero.read()

@@ -3,7 +3,9 @@ from Connection import connection
 from openpyxl import load_workbook
 import time,datetime,os,shutil,locale
 from progress1bar import ProgressBar
-from helpers import validatedate
+from helpers import validatedate,getMessageContent
+from email.message import EmailMessage
+import smtplib
 print("""
     ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
     ██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗  ██╔════╝██╔══██╗╚══██╔══╝
@@ -129,5 +131,25 @@ while True:
             shutil.copy('inventario.xlsx', savepath)
             os.remove('inventario.xlsx')
             print("\n ........Inventario en excel terminado ..... ")           
+    if(option == 2):
+        date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
+        remitente = "almacensat@coronalostuxtlas.com.mx"
+        destinatario = ["auditoriasistemas@coronalostuxtlas.com.mx"]
+        #cc = ["soporteti@coronalostuxtlas.com.mx","yosimaraquinos@gmail.com"]
+        mensaje = getMessageContent()
+        mensaje = mensaje.replace("{{dia}}", date)
+        email = EmailMessage()
+        email["From"] = remitente
+        email["To"] = destinatario
+        #email["Cc"] = cc
+        email["Subject"] = "¡Enviado desde Python!"
+        email.set_content(mensaje, subtype="html")
+        smtp = smtplib.SMTP_SSL("smtp.coronalostuxtlas.com.mx")
+        # O si se usa TLS:
+        # smtp = SMTP("smtp.ejemplo.com", port=587)
+        # smtp.starttls()
+        smtp.login(remitente, "Alm$sat&22")
+        smtp.sendmail(remitente,(destinatario), email.as_string())
+        smtp.quit()
     if(option == 3):
         break
