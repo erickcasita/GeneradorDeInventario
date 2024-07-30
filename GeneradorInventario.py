@@ -1,11 +1,9 @@
 from Utils import headers,title_category,styles_conten_category,styles_totales
 from Connection import connection
 from openpyxl import load_workbook
-import time,datetime,os,shutil,locale
+import time,datetime,os,shutil,locale,threading
 from progress1bar import ProgressBar
-from helpers import validatedate,getMessageContent
-from email.message import EmailMessage
-import smtplib
+from helpers import validatedate,sendMail,progressbarmail,getccmail
 print("""
     ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
     ██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗  ██╔════╝██╔══██╗╚══██╔══╝
@@ -130,26 +128,26 @@ while True:
             savepath = os.path.abspath(savepath) 
             shutil.copy('inventario.xlsx', savepath)
             os.remove('inventario.xlsx')
+            #Creating file name attachment mail
+            with open("mails/attachment.name.mail", 'w+') as fichero:
+                    fichero.writelines(namefile)
             print("\n ........Inventario en excel terminado ..... ")           
     if(option == 2):
-        date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
-        remitente = "almacensat@coronalostuxtlas.com.mx"
-        destinatario = ["auditoriasistemas@coronalostuxtlas.com.mx"]
-        #cc = ["soporteti@coronalostuxtlas.com.mx","yosimaraquinos@gmail.com"]
-        mensaje = getMessageContent()
-        mensaje = mensaje.replace("{{dia}}", date)
-        email = EmailMessage()
-        email["From"] = remitente
-        email["To"] = destinatario
-        #email["Cc"] = cc
-        email["Subject"] = "¡Enviado desde Python!"
-        email.set_content(mensaje, subtype="html")
-        smtp = smtplib.SMTP_SSL("smtp.coronalostuxtlas.com.mx")
-        # O si se usa TLS:
-        # smtp = SMTP("smtp.ejemplo.com", port=587)
-        # smtp.starttls()
-        smtp.login(remitente, "Alm$sat&22")
-        smtp.sendmail(remitente,(destinatario), email.as_string())
-        smtp.quit()
+        
+        if(os.path.isfile("mails/attachment.name.mail")):
+            
+            date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
+            remitente =   "almacensat@coronalostuxtlas.com.mx"
+            destinatario = ["auditoriasistemas@coronalostuxtlas.com.mx"]
+            cc = getccmail()
+            work_process_bar = threading.Thread(name="process_bar", target=progressbarmail)
+            work_send_mail = threading.Thread(name="send_email", target=sendMail, args=(date,remitente,destinatario,cc))
+            work_process_bar.start()
+            work_send_mail.start()
+            work_process_bar.join()
+            work_send_mail.join()
+            print("\n ................ Envío Terminado'..................")
+        else:
+            print("\n El Inventario ya ha sido enviado o no ha generado uno nuevo ")
     if(option == 3):
         break
