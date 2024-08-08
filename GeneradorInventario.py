@@ -4,6 +4,9 @@ from openpyxl import load_workbook
 import time,datetime,os,shutil,locale,threading
 from progress1bar import ProgressBar
 from helpers import validatedate,sendMail,progressbarmail,getccmail
+from Activate import Get_current_date, Get_current_expiration_software, Check_expiration_software
+
+
 print("""
     ░█████╗░░█████╗░███╗░░░███╗███████╗██████╗░  ░██████╗░█████╗░████████╗
     ██╔══██╗██╔══██╗████╗░████║██╔════╝██╔══██╗  ██╔════╝██╔══██╗╚══██╔══╝
@@ -21,8 +24,22 @@ print("   |------------------ 1.- CREAR INVENTARIO  --------------------------|"
 print("   |------------------ 2.- ENVIAR INVENTARIO --------------------------|")
 print("   |------------------ 3.-    SALIR          --------------------------|")
 print("   |-------------------------------------------------------------------|")
+
+print("\n ....... Validando versión y fecha de expiración ....... ")
+date_software = Get_current_expiration_software()
+date_server = Get_current_date()
+flag = False;
+response =  Check_expiration_software(date_server, date_software)
+if(response == True):
+    flag = True;
+elif(response == False):
+    print("\n ... Error en la licencía de expiración ...  || Contacte a su administrador ")
+    flag = False;
+else:
+    print(response);
+    flag = False;
+while flag:
     
-while True:
     option = input("\n Ingrese una opción: ")
     try:
         option = int(option)
@@ -150,4 +167,4 @@ while True:
         else:
             print("\n El Inventario ya ha sido enviado o no ha generado uno nuevo ")
     if(option == 3):
-        break
+        flag = False;

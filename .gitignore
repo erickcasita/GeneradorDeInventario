@@ -3,3 +3,7 @@ __pycache__
 *.xlsx
 *.env
 *.name.mail
+build
+dist
+venv
+*.spec
