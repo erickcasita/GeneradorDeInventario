@@ -1,4 +1,4 @@
-import datetime, smtplib,time,os, email
+import datetime, smtplib,time,os,locale, email
 from progress1bar import ProgressBar
 from email import encoders
 from email.message import EmailMessage
@@ -355,7 +355,7 @@ def getMessageContent():
                 </tr>
                 <tr>
                   <td class="content-block powered-by">
-                    Desarrolado por  <a href="#">Ing. Erick M. Ramírez Casanova</a>
+                    Desarrollado por  <a href="#">Ing. Erick M. Ramírez Casanova</a>
                   </td>
                 </tr>
               </table>
@@ -381,36 +381,46 @@ def getccmail():
       linea = linea.replace('\n','')
       cc.append(linea)
   return cc
-def sendMail(date, remitente,destinatario,cc):
-  #NameAttachment
-  adjuntoname= getnameAttachemnt()
-  pathadjunto = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Documents','ReporteadorInventario',adjuntoname)
-  mensaje = getMessageContent()
-  mensaje = mensaje.replace("{{dia}}", date)
- 
-  html_part = MIMEText(mensaje, 'html','utf-8')
-  msg_alternative = MIMEMultipart('alternative')
-  msg_alternative.attach(html_part)
+def sendMail():
+  #date = datetime.datetime.strftime(datetime.datetime.now(),'%d-%m-%Y')
+  with open('mails/mails.em', 'r') as fichero:
+    for linea in fichero:
+      to = []
+      linea = linea.replace('\n','');
+      to.append(linea)
+      locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
+      date = datetime.datetime.strftime(datetime.datetime.now(),'%A %d de %B del %Y')
+      text = "Inventario del día"
+      html = getMessageContent()
+      html = html.replace("{{dia}}",date)
+      text_part = MIMEText(text, 'plain')
+      html_part = MIMEText(html, 'html')
 
+      msg_alternative = MIMEMultipart('alternative')
+      msg_alternative.attach(text_part)
+      msg_alternative.attach(html_part)
 
-  fp=open(pathadjunto,'rb')
-  attachment = MIMEApplication(fp.read(),_subtype="xlsx")
-  fp.close()
-  attachment.add_header('Content-Disposition', 'attachment', filename=adjuntoname)
+      filename= getnameAttachemnt()
+      pathadjunto = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Documents','ReporteadorInventario',filename)
+      fp=open(pathadjunto,'rb')
+      attachment = MIMEApplication(fp.read(),_subtype="xlsx")
+      fp.close()
+      attachment.add_header('Content-Disposition', 'attachment', filename=filename)
 
-  msg_mixed = MIMEMultipart('mixed')
-  msg_mixed.attach(msg_alternative)
-  msg_mixed.attach(attachment)
-  msg_mixed['From'] =  formataddr(('Almacén SAT | Corona los Tuxtlas' , remitente))
-  msg_mixed['To'] = ', '.join(destinatario)
-  msg_mixed['Cc'] = ', '.join(cc)
-  msg_mixed['Subject'] =  "INVENTARIOS DE ALMACENES "+date + " 🍻"
+      msg_mixed = MIMEMultipart('mixed')
+      msg_mixed.attach(msg_alternative)
+      msg_mixed.attach(attachment)
+      msg_mixed['From'] = 'almacensat@coronalostuxtlas.com.mx'
+      destinatario = to
+      msg_mixed['To'] = ",".join(destinatario)
+      msg_mixed['Subject'] = 'Inventario de almacenes al dia ' + str(str(datetime.datetime.strftime(datetime.datetime.now(),'%A %d de %B del %Y')))
 
-  smtp_obj = smtplib.SMTP_SSL('smtp.coronalostuxtlas.com.mx')
-  smtp_obj.ehlo()
-  smtp_obj.login(remitente, 'Alm$sat&22')
-  smtp_obj.sendmail(msg_mixed['From'], (destinatario + cc), msg_mixed.as_string())
-  smtp_obj.quit()
+      smtp_obj = smtplib.SMTP_SSL('smtp.coronalostuxtlas.com.mx')
+      smtp_obj.ehlo()
+      smtp_obj.login('almacensat@coronalostuxtlas.com.mx', 'Alm$sat&22')
+      smtp_obj.sendmail(msg_mixed['From'], (destinatario), msg_mixed.as_string())
+      smtp_obj.quit()
+      time.sleep(1)
   os.remove('mails/attachment.name.mail')
 def progressbarmail():
   kwargs = {
@@ -422,9 +432,10 @@ def progressbarmail():
     'show_duration': True
 }
   with ProgressBar(**kwargs) as pb:
-      pb.alias = 'Envío de  correro'
+      pb.alias = 'Envío de correo'
       for _ in range(pb.total):
           pb.count += 1
-          time.sleep(0.3)
+          time.sleep(0.5)
 
 
+getccmail()

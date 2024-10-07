@@ -1,7 +1,7 @@
 import requests,datetime
 
 def Get_current_date():
-    url = 'https://software-api-rnig.onrender.com/currentdate'
+    url = 'https://software-api-rnig.onrender.com/currentdate' #'http://localhost:3000/currentdate' 
     data = requests.get(url)
     try:
         if (data.status_code == 200):
@@ -14,7 +14,7 @@ def Get_current_date():
         print("Error al obtener la fecha del servidor");
         
 def Get_current_expiration_software():
-    url = 'https://software-api-rnig.onrender.com/currentversion'
+    url = 'https://software-api-rnig.onrender.com/currentversion'#'http://localhost:3000/currentversion' 
     data = requests.get(url)
     try:
         if (data.status_code == 200):
