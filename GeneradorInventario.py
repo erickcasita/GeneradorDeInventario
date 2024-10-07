@@ -16,7 +16,7 @@ print("""
     ░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚═╝  ╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░
       """)
 print("            GENERADOR DE EXISTENCIAS ALMACENES LLENO SAT Y JDC           ")
-print("                              VERSIÓN 9.0                                ")
+print("                             VERSIÓN 10                                  ")
 print("                         ING. ERICK CASANOVA                             ")
 print("                           ÁREA DE SISTEMAS                              ")
 print("   |-------------------------------------------------------------------|")
@@ -35,6 +35,7 @@ if(response == True):
 elif(response == False):
     print("\n ... Error en la licencía de expiración ...  || Contacte a su administrador ")
     flag = False;
+    input("\n Ingrese cualquier tecla para salir ");
 else:
     print(response);
     flag = False;
@@ -98,7 +99,11 @@ while flag:
                     for row in rows:
           
                         ws.cell(fila,1).value = row[0]
-                        ws.cell(fila,2).value = int(row[1])
+                        sku = row[1]
+                        sku = str(sku).strip()
+                        if(sku == ""):
+                            sku = "0"
+                        ws.cell(fila,2).value = int(sku)
                         ws.cell(fila,3).value = row[2]
                         ws.cell(fila,4).value = row[3]
                         ws.cell(fila,5).value = row[4]
@@ -140,7 +145,8 @@ while flag:
             wb.save("inventario.xlsx")
             #Administrator file
             locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
-            namefile = 'INVENTARIO DE ALMACENES AL DIA '+str(datetime.datetime.strftime(datetime.datetime.now(),'%d-%m-%Y %H-%M-%S %p'))+'.xlsx'
+            #namefile = 'INVENTARIO DE ALMACENES AL DIA '+str(datetime.datetime.strftime(datetime.datetime.now(),'%d-%m-%Y %H-%M-%S %p'))+'.xlsx'
+            namefile = "Inventario de almacenes al dia " + str(datetime.datetime.strftime(datetime.datetime.now(),'%A %d de %B del %Y %H %M %S %p'))+ '.xlsx'
             savepath = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Documents','ReporteadorInventario',namefile)
             savepath = os.path.abspath(savepath) 
             shutil.copy('inventario.xlsx', savepath)
@@ -150,20 +156,19 @@ while flag:
                     fichero.writelines(namefile)
             print("\n ........Inventario en excel terminado ..... ")           
     if(option == 2):
-        
+        print("\n")
         if(os.path.isfile("mails/attachment.name.mail")):
-            
             date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
             remitente =   "almacensat@coronalostuxtlas.com.mx"
-            destinatario = ["auditoriasistemas@coronalostuxtlas.com.mx"]
+            destinatario = ["direcciongral@coronalostuxtlas.com.mx"]
             cc = getccmail()
             work_process_bar = threading.Thread(name="process_bar", target=progressbarmail)
-            work_send_mail = threading.Thread(name="send_email", target=sendMail, args=(date,remitente,destinatario,cc))
+            work_send_mail = threading.Thread(name="send_email", target=sendMail)
             work_process_bar.start()
             work_send_mail.start()
             work_process_bar.join()
             work_send_mail.join()
-            print("\n ................ Envío Terminado'..................")
+            print("\n ................ Envío Terminado ..................")
         else:
             print("\n El Inventario ya ha sido enviado o no ha generado uno nuevo ")
     if(option == 3):
