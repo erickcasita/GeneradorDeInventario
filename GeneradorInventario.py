@@ -3,7 +3,7 @@ from Connection import connection
 from openpyxl import load_workbook
 import time,datetime,os,shutil,locale,threading
 from progress1bar import ProgressBar
-from helpers import validatedate,sendMail,progressbarmail,getccmail
+from helpers import validatedate,sendMail,progressbarmail
 from Activate import Get_current_date, Get_current_expiration_software, Check_expiration_software
 
 
@@ -161,7 +161,6 @@ while flag:
             date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
             remitente =   "almacensat@coronalostuxtlas.com.mx"
             destinatario = ["direcciongral@coronalostuxtlas.com.mx"]
-            cc = getccmail()
             work_process_bar = threading.Thread(name="process_bar", target=progressbarmail)
             work_send_mail = threading.Thread(name="send_email", target=sendMail)
             work_process_bar.start()
