@@ -374,13 +374,6 @@ def getMessageContent():
 def getnameAttachemnt():
   with open('mails/attachment.name.mail') as fichero:
     return fichero.read()
-def getccmail():
-  cc = [] 
-  with open('mails/mails.em', 'r') as fichero:
-    for linea in fichero:
-      linea = linea.replace('\n','')
-      cc.append(linea)
-  return cc
 def sendMail():
   #date = datetime.datetime.strftime(datetime.datetime.now(),'%d-%m-%Y')
   with open('mails/mails.em', 'r') as fichero:
@@ -436,6 +429,3 @@ def progressbarmail():
       for _ in range(pb.total):
           pb.count += 1
           time.sleep(0.5)
-
-
-getccmail()
