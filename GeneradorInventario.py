@@ -161,11 +161,8 @@ while flag:
             date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
             remitente =   "almacensat@coronalostuxtlas.com.mx"
             destinatario = ["direcciongral@coronalostuxtlas.com.mx"]
-            work_process_bar = threading.Thread(name="process_bar", target=progressbarmail)
             work_send_mail = threading.Thread(name="send_email", target=sendMail)
-            work_process_bar.start()
             work_send_mail.start()
-            work_process_bar.join()
             work_send_mail.join()
             print("\n ................ Envío Terminado ..................")
         else:
