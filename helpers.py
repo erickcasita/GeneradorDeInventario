@@ -74,17 +74,3 @@ def sendMail():
         time.sleep(1)
         pb.count += 1
       os.remove('mails/attachment.name.mail')
-def progressbarmail():
-  kwargs = {
-    'total': 100,
-    'completed_message': 'Proceso Terminado',
-    'clear_alias': False,
-    'show_fraction': False,
-    'show_prefix': False,
-    'show_duration': True
-}
-  with ProgressBar(**kwargs) as pb:
-      pb.alias = 'Envío de correo'
-      for _ in range(pb.total):
-          pb.count += 1
-          time.sleep(0.5)
