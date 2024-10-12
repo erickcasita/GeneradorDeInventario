@@ -158,9 +158,6 @@ while flag:
     if(option == 2):
         print("\n")
         if(os.path.isfile("mails/attachment.name.mail")):
-            date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
-            remitente =   "almacensat@coronalostuxtlas.com.mx"
-            destinatario = ["direcciongral@coronalostuxtlas.com.mx"]
             work_send_mail = threading.Thread(name="send_email", target=sendMail)
             work_send_mail.start()
             work_send_mail.join()
