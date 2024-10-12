@@ -1,0 +1,38 @@
+[
+    {
+        "CVECAT": "1",
+        "NOMCAT": "CERVEZA"
+    },
+    {
+        "CVECAT": "2",
+        "NOMCAT": "REFRESCOS"
+    },
+    {
+        "CVECAT": "3",
+        "NOMCAT": "AGUA NATURAL"
+    },
+    {
+        "CVECAT": "10",
+        "NOMCAT": "JUGOS"
+    },
+    {
+        "CVECAT": "11",
+        "NOMCAT": "BEBIDAS ENERGÉTICAS"
+    },
+    {
+        "CVECAT": "14",
+        "NOMCAT": "AGUA MINERAL"
+    },
+    {
+        "CVECAT": "17",
+        "NOMCAT": "BEBIDAS ISOTÓNICAS"
+    },
+    {
+        "CVECAT": "18",
+        "NOMCAT": "ADAS"
+    },
+    {
+        "CVECAT": "22",
+        "NOMCAT": "COMESTIBLES"
+    }
+]
