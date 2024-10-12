@@ -1,7 +1,7 @@
 from Utils import headers,title_category,styles_conten_category,styles_totales
 from Connection import connection
 from openpyxl import load_workbook
-import time,datetime,os,shutil,locale,threading
+import time,datetime,os,shutil,locale,threading,json
 from progress1bar import ProgressBar
 from helpers import validatedate,sendMail
 from Activate import Get_current_date, Get_current_expiration_software, Check_expiration_software
@@ -51,19 +51,10 @@ while flag:
         date = input("\n Ingrese Fecha cierre de Almacén YYY-mm-dd: ")
         if(validatedate(date)):
             print("\n ........ Creando Inventario en excel ..... \n")
-            #diccionary category beer
-            data = {
-            1: "CERVEZA",
-            2: "REFRESCOS",
-            3: "AGUA NATURAL",
-            10: "JUGOS",
-            11: "BEBIDAS ENERGÉTICAS",
-            14: "AGUA MINERAL",
-            17: "BEBIDAS ISOTÓNICAS",
-            18: "ADAS",
-            22: "COMESTIBLES"
             
-        }
+            with open ("json/category-beer.json", "r",encoding='utf-8') as r:
+                category_beer = json.load(r)
+            
             #array totals category
             totals_category = []
             headers()
@@ -72,16 +63,18 @@ while flag:
             #Call file inventario.xlsx
             wb = load_workbook("inventario.xlsx")
             ws = wb.active
-            for key in data:
+            for category in category_beer:
+                cvecat = category.get('CVECAT')
+                nomcat = category.get('NOMCAT')
                 #Insert title category
-                title_category(wb,fila,str(data[key]))
+                title_category(wb,fila,str(nomcat))
                 fila=fila+1
                 #Conection Sql Server
                 con = connection()
                 sql = con.cursor()
                 #Execute procedure
                 command = "set nocount on; execute GeneradorDeInventarioXCategoriasV2 @clavecategoria=?, @fechacierre=?"
-                params = (key,str(date))
+                params = (cvecat,str(date))
                 sql.execute(command,params)
                 rows = sql.fetchall()
                 #Get total rows
@@ -89,7 +82,7 @@ while flag:
                 #kwargs  config progressBar
                 kwargs = {
                     'total': totalprodcts,
-                    'completed_message': 'Categoria ' +data[key]+" completa",
+                    'completed_message': 'Categoria ' +nomcat+" completa",
                     'clear_alias': True,
                     'show_fraction': False,
                     'show_prefix': False,
