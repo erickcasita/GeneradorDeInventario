@@ -3,7 +3,7 @@ from Connection import connection
 from openpyxl import load_workbook
 import time,datetime,os,shutil,locale,threading
 from progress1bar import ProgressBar
-from helpers import validatedate,sendMail,progressbarmail
+from helpers import validatedate,sendMail
 from Activate import Get_current_date, Get_current_expiration_software, Check_expiration_software
 
 
@@ -158,9 +158,6 @@ while flag:
     if(option == 2):
         print("\n")
         if(os.path.isfile("mails/attachment.name.mail")):
-            date = datetime.datetime.strftime(datetime.datetime.now(),'%d/%m/%Y')
-            remitente =   "almacensat@coronalostuxtlas.com.mx"
-            destinatario = ["direcciongral@coronalostuxtlas.com.mx"]
             work_send_mail = threading.Thread(name="send_email", target=sendMail)
             work_send_mail.start()
             work_send_mail.join()
