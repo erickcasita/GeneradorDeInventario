@@ -1,3 +1,2 @@
-soporteti@coronalostuxtlas.com.mx
 auditoriasistemas@coronalostuxtlas.com.mx
-soportesistemas@coronalostuxtlas.com.mx
+casa.erickmr@gmail.com
