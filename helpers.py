@@ -7,7 +7,6 @@ from email.utils import formataddr
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from mails import mailcontent
 def validatedate(date_text):
         try:
             datetime.date.fromisoformat(date_text)
