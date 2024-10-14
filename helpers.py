@@ -17,6 +17,9 @@ def validatedate(date_text):
 def getnameAttachemnt():
   with open('mails/attachment.name.mail') as fichero:
     return fichero.read()
+def getmailcontent():
+    with open('mails/mailcontent.em', 'r',encoding='utf-8') as fichero:
+      return fichero.read()
 def getemailto():
   to = []
   with open('mails/mails.em', 'r') as fichero:
@@ -43,7 +46,7 @@ def sendMail():
         locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
         date = datetime.datetime.strftime(datetime.datetime.now(),'%A %d de %B del %Y')
         text = "Inventario del día"
-        html = mailcontent.content()
+        html = getmailcontent()
         html = html.replace("{{dia}}",date)
         text_part = MIMEText(text, 'plain')
         html_part = MIMEText(html, 'html')
