@@ -51,10 +51,8 @@ while flag:
         date = input("\n Ingrese Fecha cierre de Almacén YYY-mm-dd: ")
         if(validatedate(date)):
             print("\n ........ Creando Inventario en excel ..... \n")
-            
             with open ("json/category-beer.json", "r",encoding='utf-8') as r:
                 category_beer = json.load(r)
-            
             #array totals category
             totals_category = []
             headers()
@@ -158,4 +156,4 @@ while flag:
         else:
             print("\n El Inventario ya ha sido enviado o no ha generado uno nuevo ")
     if(option == 3):
-        flag = False;
+        flag = False
