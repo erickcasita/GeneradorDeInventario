@@ -1,9 +1,5 @@
-import datetime, smtplib,time,os,locale, email
+import datetime, smtplib,time,os,locale
 from progress1bar import ProgressBar
-from email import encoders
-from email.message import EmailMessage
-from email.mime.base import MIMEBase
-from email.utils import formataddr
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -67,7 +63,6 @@ def sendMail():
         msg_mixed['From'] = 'almacensat@coronalostuxtlas.com.mx'
         msg_mixed['To'] = ",".join(destinatario)
         msg_mixed['Subject'] = 'Inventario de almacenes al dia ' + str(str(datetime.datetime.strftime(datetime.datetime.now(),'%A %d de %B del %Y')))
-
         smtp_obj = smtplib.SMTP_SSL('smtp.coronalostuxtlas.com.mx')
         smtp_obj.ehlo()
         smtp_obj.login('almacensat@coronalostuxtlas.com.mx', 'Alm$sat&22')
